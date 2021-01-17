@@ -1,7 +1,8 @@
 <template>
   <div class="home" :state="state">
+    <FilterNav @filterChange="state.current = $event" :current="state.current"/>
     <div v-if="state.projects.length">
-      <div v-for="project in state.projects" :key="project.id">
+      <div v-for="project in filteredProjects" :key="project.id">
         <SingleProject :project="project" @delete="handleDelete" @complete="handleComplete"/>
       </div>
     </div>
@@ -10,15 +11,18 @@
 
 <script>
 
-import { reactive, onMounted } from 'vue'
+import { reactive, onMounted, computed } from 'vue'
 import SingleProject from '../components/SingleProject'
+import FilterNav from '../components/FilterNav'
 
 export default {
   setup () {
     const state = reactive({
-      projects: []
+      projects: [],
+      current: 'all'
     })
 
+    console.log(state.current)
     onMounted(() => {
       fetch('http://localhost:3000/projects')
         .then(res => res.json())
@@ -42,12 +46,24 @@ export default {
       p.complete = !p.complete
     }
 
+    const filteredProjects = computed(() => {
+      if (state.current === 'completed') {
+        return state.projects.filter(project => project.complete)
+      }
+      if (state.current === 'ongoing') {
+        return state.projects.filter(project => !project.complete)
+      }
+      return state.projects
+    })
+
     return {
       state,
       onMounted,
       SingleProject,
       handleDelete,
-      handleComplete
+      handleComplete,
+      FilterNav,
+      filteredProjects
     }
   }
 }

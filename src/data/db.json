@@ -2,19 +2,19 @@
   "projects": [
     {
       "title": "Create new homepage banner!!!",
-      "details": "Lorem ipsum!!!asdsad asdasd acvvvv112",
-      "complete": true,
+      "details": "Lorem ipsum!!!Lorem ipsum!!! Lorem ipsum!!! Lorem ipsum!!!",
+      "complete": false,
       "id": 1
     },
     {
       "title": "Make marketing email!!!",
-      "details": "Lorem ipsum!!! sava avasasva ",
+      "details": "Lorem ipsum!!! sava avasasva Lorem ipsum!!!Lorem ipsum!!!Lorem ipsum!!!",
       "complete": true,
       "id": 2
     },
     {
       "title": "My First Project",
-      "details": "My first project is rly interesting",
+      "details": "My first project is rly interesting Lorem ipsum!!!Lorem ipsum!!!",
       "complete": false,
       "id": 3
     }

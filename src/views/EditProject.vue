@@ -20,7 +20,6 @@ export default {
     const state = reactive({
       title: '',
       details: '',
-      complete: false,
       uri: 'http://localhost:3000/projects/' + props.id
     })
 
@@ -32,19 +31,17 @@ export default {
         .then(data => {
           state.title = data.title
           state.details = data.details
-          state.complete = data.complete
         })
     })
 
     const updateProject = () => {
       console.log('Fetching...')
       fetch(state.uri, { 
-        headers: { "Content-Type": "application/json" },
-        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        method: 'PATCH',
         body: JSON.stringify({
           title: state.title,
-          details: state.details,
-          complete: state.complete
+          details: state.details
         })
       }).then(() => {
           router.push('/')
