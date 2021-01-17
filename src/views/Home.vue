@@ -2,7 +2,7 @@
   <div class="home" :state="state">
     <div v-if="state.projects.length">
       <div v-for="project in state.projects" :key="project.id">
-        <SingleProject :project="project" @delete="handleDelete"/>
+        <SingleProject :project="project" @delete="handleDelete" @complete="handleComplete"/>
       </div>
     </div>
   </div>
@@ -35,11 +35,19 @@ export default {
       })
     }
 
+    const handleComplete = (id) => {
+      let p = state.projects.find(project => {
+        return project.id === id
+      })
+      p.complete = !p.complete
+    }
+
     return {
       state,
       onMounted,
       SingleProject,
-      handleDelete
+      handleDelete,
+      handleComplete
     }
   }
 }

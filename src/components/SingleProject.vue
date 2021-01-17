@@ -1,11 +1,13 @@
 <template>
-  <div class="project">
-    <div class="actions" @click="isVisible.value = !isVisible.value">
-      <h3>{{ project.title }}</h3>
+  <div class="project" :class="{ complete: project.complete }">
+    <div class="actions" >
+      <h3 @click="isVisible.value = !isVisible.value">{{ project.title }}</h3>
       <div class="icons">
-        <span class="material-icons">edit</span>
+        <router-link :to="{ name: 'EditProject', params: { id: project.id }}">
+          <span class="material-icons">edit</span>
+        </router-link>
         <span @click="deleteProject" class="material-icons">delete</span>
-        <span @click="toggleComplete" class="material-icons">done</span>
+        <span @click="toggleComplete" class="material-icons tick">done</span>
       </div>
     </div>
     <div class="details" v-if="isVisible.value">
@@ -15,7 +17,7 @@
 </template>
 
 <script>
-import { computed, reactive } from 'vue'
+import { reactive } from 'vue'
 
 export default {
   props: {
@@ -39,7 +41,9 @@ export default {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ complete: !props.project.complete })
-      })
+      }).then(() => {
+        emit('complete', props.project.id)
+      }).catch(err => console.log(err))
     }
 
     return {
@@ -63,6 +67,17 @@ export default {
     border-radius: 4px;
     box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.05);
     border-left: 4px solid #e90074;
+    transition: 0.5s;
+  }
+
+  .project.complete {
+    border-left: 4px solid #00ce89;
+    transition: 0.5s
+  }
+
+  .project.complete .tick {
+    color: #00ce89;
+    transition: 0.5s;
   }
 
   h3 {
